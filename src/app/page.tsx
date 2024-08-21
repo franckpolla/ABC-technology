@@ -2,6 +2,9 @@ import Image from "next/image";
 import BgImage from "../_assert/pexels-burst-374103.jpg";
 import { Button } from "@/components/ui/button";
 import SectionProduct from "@/components/SectionProduct";
+import OurServices from "@/components/OurServices";
+import OurWebsites from "@/components/OurWebsites";
+import Example from "@/components/NewsLetter";
 
 export default function Home() {
   return (
@@ -14,16 +17,16 @@ export default function Home() {
           quality={100}
           alt="camera img"
         />
-        <div className=" flex items-center relative z-10">
-          <div className=" mt-32 text-white mx-20">
-            <h1 className="font-serif text-6xl  ">
+        <div className=" flex items-center relative z-10 overflow-hidden">
+          <div className=" mt-32 text-white  mx-4 md:mx-20">
+            <h1 className="font-serif text-6xl   ">
               welcome to <br />
               <span className="text-blue-400 animate-pulse mx-2  text-8xl font-semibold">
                 ABC
               </span>
               Technology
             </h1>
-            <p className=" mt-5 text-gray-200 font-sans text-xl max-w-[650px]">
+            <p className=" mt-5 text-gray-200 font-sans text-xl w-[250px] lg:w-[650px]">
               we empower your world—whether it's securing your space with our
               advanced CCTV systems or bringing your digital vision to life with
               innovative web development.
@@ -41,7 +44,10 @@ export default function Home() {
         </div>
       </div>
       <div>
+        <OurServices />
         <SectionProduct />
+        <OurWebsites />
+        <Example />
       </div>
     </main>
   );

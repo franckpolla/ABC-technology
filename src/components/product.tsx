@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 function product({ productTitle, productImage, Price }: any) {
   return (
-    <div className="min-w-64  sm:w-1/2 md:w-1/3 lg:w-1/4">
-      <div className="box">
+    <div className="w-full flex justify-center items-center min-w-64  sm:w-1/2 md:w-full lg:w-1/4">
+      <div className="box  w-72 max-w-72 h-96 max-h-96 m-1 ">
         <div className="option_container">
           <div className="options">
             <Link href="" className="option2 ">
@@ -13,11 +13,16 @@ function product({ productTitle, productImage, Price }: any) {
           </div>
         </div>
         <div className="img-box">
-          <Image src={productImage} alt="cctv camera" />
+          <Image
+            src={productImage}
+            width={160}
+            height={140}
+            alt="cctv camera"
+          />
         </div>
         <div className="detail-box">
           <h5>{productTitle}</h5>
-          <h6>{Price}</h6>
+          <h6>{Price} $</h6>
         </div>
       </div>
     </div>

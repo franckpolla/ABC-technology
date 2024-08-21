@@ -16,6 +16,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../_assert/ABC.png";
 import { usePathname } from "next/navigation";
+import { DropdownMenuDemo } from "./DropDownMenu";
 
 const NavigationLink = ({ href, children }: any) => {
   // usePathname Part of the new App Router introduced in Next.js 13
@@ -65,7 +66,7 @@ const Navbar = () => {
               </div>
               <div className="hidden lg:flex gap-4">
                 <Link href="#">
-                  <UserCircleIcon className="h-8 w-8  text-gray-500" />
+                  <DropdownMenuDemo />
                 </Link>
                 <Link href="#">
                   <ShoppingCartIcon className="h-8 w-8 text-gray-500" />
@@ -101,17 +102,34 @@ const Navbar = () => {
           }`}
         >
           <div className="px-8">
-            <div className="flex flex-col gap-8 font-bold tracking-wider">
-              <a href="#" className="hover:border-l-4 hover: border-gray-600">
+            <div className="flex mb-8 flex-col gap-8 font-bold tracking-wider">
+              <Link
+                href="/"
+                className="hover:border-l-4 hover: border-gray-600"
+              >
                 Home
-              </a>
-              <a href="#" className="hover:border-l-4 hover: border-gray-600">
+              </Link>
+              <Link
+                href="Product"
+                className="hover:border-l-4 hover: border-gray-600"
+              >
                 Products
-              </a>
+              </Link>
 
-              <a href="#" className="hover:border-l-4 hover: border-gray-600">
+              <Link
+                href="ContactUs"
+                className="hover:border-l-4 hover: border-gray-600"
+              >
                 Contact us
-              </a>
+              </Link>
+            </div>
+            <div className="flex flex-col  justify-center gap-4">
+              <Link href="#">
+                <DropdownMenuDemo />
+              </Link>
+              <Link href="#">
+                <ShoppingCartIcon className="h-8 w-8 mx-4 text-gray-500" />
+              </Link>
             </div>
           </div>
         </div>
