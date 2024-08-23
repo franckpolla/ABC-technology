@@ -27,7 +27,7 @@ export function CarouselSize() {
       opts={{
         align: "start",
       }}
-      className="lg:w-full lg:max-w-[1200px] "
+      className="lg:w-full lg:max-w-[1200px] overflow-hidden "
     >
       <CarouselContent>
         {imageArray.map((item: any, index: any) => (

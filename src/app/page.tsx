@@ -5,6 +5,7 @@ import SectionProduct from "@/components/SectionProduct";
 import OurServices from "@/components/OurServices";
 import OurWebsites from "@/components/OurWebsites";
 import Example from "@/components/NewsLetter";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -47,8 +48,8 @@ export default function Home() {
         <OurServices />
         <SectionProduct />
         <OurWebsites />
-        <Example />
       </div>
+      <Example />
     </main>
   );
 }

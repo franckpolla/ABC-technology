@@ -24,7 +24,7 @@ export function DropdownMenuDemo() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="border-none" variant="outline">
-          <UserCircleIcon className="h-8 w-8  text-gray-500" />
+          <UserCircleIcon className="h-8 w-8 border-none text-gray-500" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
@@ -33,9 +33,14 @@ export function DropdownMenuDemo() {
 
         <DropdownMenuSeparator />
 
-        <Button className="bg-none border-none">
-          <span>Sign up</span>
-        </Button>
+        <div className="overflow-hidden p-2">
+          <Link
+            href="/SignUp"
+            className="bg-gray-500 hover:text-white font-bold p-2 m-2 overflow-hidden rounded-lg border-none"
+          >
+            <span>Sign up</span>
+          </Link>
+        </div>
         <DropdownMenuSeparator />
 
         <DropdownMenuSeparator />

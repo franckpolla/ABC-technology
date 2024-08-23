@@ -28,10 +28,10 @@ const SectionProduct = () => {
           })}
         </div>
         <Link
-          href=""
+          href="/Product"
           className="flex center justify-center underline text-2xl items-center mt-10"
         >
-          See More{" "}
+          See More
         </Link>
       </div>
     </section>
