@@ -13,7 +13,7 @@ const page = () => {
       <div className="w-auto flex justify-center mb-20 items-center ">
         <form
           action=""
-          className="bg-gray-600 lg:min-w-[450px]  w-auto p-10 rounded-2xl"
+          className="bg-cyan-800 lg:min-w-[450px]  w-96 p-10 rounded-2xl"
         >
           <h1 className="text-2xl font-bold text-white">
             Get In touch with Us
@@ -29,7 +29,7 @@ const page = () => {
             <Input type="name" placeholder="Name" />
           </div>
           <div className="p-4 text-white">
-            <Textarea />
+            <Textarea placeholder="Send us a message" />
           </div>
 
           <Button

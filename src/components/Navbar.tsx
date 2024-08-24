@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import {
   PaperAirplaneIcon,
@@ -17,11 +17,12 @@ import Image from "next/image";
 import Logo from "../_assert/ABC.png";
 import { usePathname } from "next/navigation";
 import { DropdownMenuDemo } from "./DropDownMenu";
+import { Button } from "./ui/button";
+import CartPopUp from "./CartPopUp";
 
 const NavigationLink = ({ href, children }: any) => {
-  // usePathname Part of the new App Router introduced in Next.js 13
-  //Returns only the current pathname of the URL
   const router = usePathname();
+
   const isActive = router === href;
   return (
     <div>
@@ -41,6 +42,25 @@ const NavigationLink = ({ href, children }: any) => {
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const [showCartPopUp, setShowCartPopUp] = useState(false);
+  const menuRef = useRef(null);
+
+  // to close the mobile menu when the user clicks on the navigation bar or somewhere else on the screen
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setToggleMenu(false); // Close the menu when clicking outside
+      }
+    };
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
 
   return (
     <div className="app">
@@ -58,7 +78,7 @@ const Navbar = () => {
                   <Image src={Logo} alt="ABC logo" width={140} height={60} />
                 </Link>
               </div>
-              {/* primLinkry */}
+              {/* primary */}
               <div className="hidden lg:flex  gap-8 px-16 ">
                 <NavigationLink href="/">Home</NavigationLink>
                 <NavigationLink href="/Product">Product</NavigationLink>
@@ -68,9 +88,12 @@ const Navbar = () => {
                 <Link href="#">
                   <DropdownMenuDemo />
                 </Link>
-                <Link href="#">
+                <Button
+                  className="bg-neutral-50 border-none hover:bg-gray-100 "
+                  onClick={() => setShowCartPopUp(true)}
+                >
                   <ShoppingCartIcon className="h-8 w-8 text-gray-500" />
-                </Link>
+                </Button>
               </div>
             </div>
             {/* secondary */}
@@ -97,7 +120,8 @@ const Navbar = () => {
         </div>
         {/* mobile navigation */}
         <div
-          className={`fixed z-40 w-full  bg-gray-100 overflow-hidden flex flex-col lg:hidden gap-12  origin-top duration-700 ${
+          ref={menuRef}
+          className={`fixed z-20 w-full  bg-gray-100 overflow-hidden flex flex-col lg:hidden gap-12  origin-top duration-700 ${
             !toggleMenu ? "h-0" : "h-96"
           }`}
         >
@@ -110,14 +134,14 @@ const Navbar = () => {
                 Home
               </Link>
               <Link
-                href="Product"
+                href="/Product"
                 className="hover:border-l-4 hover: border-gray-600"
               >
                 Products
               </Link>
 
               <Link
-                href="ContactUs"
+                href="/ContactUs"
                 className="hover:border-l-4 hover: border-gray-600"
               >
                 Contact us
@@ -127,13 +151,22 @@ const Navbar = () => {
               <Link href="#">
                 <DropdownMenuDemo />
               </Link>
-              <Link href="#">
+              <Button
+                className="bg-neutral-50 border-none w-24 hover:bg-gray-100 "
+                onClick={() => <CartPopUp />}
+              >
                 <ShoppingCartIcon className="h-8 w-8 mx-4 text-gray-500" />
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
       </nav>
+      {showCartPopUp && (
+        <CartPopUp
+          show={showCartPopUp}
+          handleClose={() => setShowCartPopUp(false)}
+        />
+      )}
     </div>
   );
 };

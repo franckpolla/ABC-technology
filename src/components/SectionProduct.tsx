@@ -21,7 +21,7 @@ const SectionProduct = () => {
               <Product
                 key={product.id}
                 productTitle={product.name}
-                Price={product.price}
+                price={product.price}
                 productImage={product.image}
               />
             );
