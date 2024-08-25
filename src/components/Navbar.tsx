@@ -151,12 +151,12 @@ const Navbar = () => {
               <Link href="#">
                 <DropdownMenuDemo />
               </Link>
-              <Button
-                className="bg-neutral-50 border-none w-24 hover:bg-gray-100 "
-                onClick={() => <CartPopUp />}
+              <Link
+                href="/Cart"
+                className="bg-neutral-50 rounded-sm w-16 hover:bg-gray-100 "
               >
                 <ShoppingCartIcon className="h-8 w-8 mx-4 text-gray-500" />
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

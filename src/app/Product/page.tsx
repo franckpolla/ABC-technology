@@ -17,12 +17,12 @@ const page = () => {
       <section className="product_section layout_padding ">
         <div className="container">
           <div className="row flex flex-wrap ">
-            {ProductList.map((product) => {
+            {ProductList.map((product, index) => {
               return (
                 <Product
-                  key={product.id}
+                  key={index}
                   productTitle={product.name}
-                  Price={product.price}
+                  price={product.price}
                   productImage={product.image}
                 />
               );
@@ -142,15 +142,3 @@ const Website = () => {
     </div>
   );
 };
-
-{
-  /* <img
-  class="gallery-site__img"
-  src="https://assets.awwwards.com/awards/submissions/2024/08/66b6a5537b750204689273.jpg"
-  alt=""
-></img>; */
-}
-
-{
-  /* <img class="gallery-site__img" src="https://assets.awwwards.com/awards/submissions/2024/07/668d105bf206f554415480.jpg" alt=""></img> */
-}
