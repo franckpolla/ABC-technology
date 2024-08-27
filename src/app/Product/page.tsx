@@ -16,7 +16,7 @@ const page = () => {
       </div>
       <section className="product_section layout_padding ">
         <div className="container">
-          <div className="row flex flex-wrap ">
+          <div className="row flex flex-wrap justify-center items-center ">
             {ProductList.map((product, index) => {
               return (
                 <Product

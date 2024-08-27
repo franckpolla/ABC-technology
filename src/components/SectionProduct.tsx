@@ -15,7 +15,7 @@ const SectionProduct = () => {
             Our <span className="text-blue-500 ">CCTV</span> Products
           </h2>
         </div>
-        <div className="row flex flex-wrap ">
+        <div className="row flex flex-wrap   justify-center items-center">
           {ProductList.map((product) => {
             return (
               <Product

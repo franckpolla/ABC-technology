@@ -572,7 +572,7 @@ function CheckOut({ fetchedData }: any) {
                                     {item.productTitle}
                                   </td>
                                   <td className="py-4 text-right text-gray-800">
-                                    {item.price}
+                                    {item.price} $
                                   </td>
                                 </tr>
                               ))}
@@ -581,15 +581,15 @@ function CheckOut({ fetchedData }: any) {
                               <tr className="border-b border-gray-200">
                                 <th className="py-4 text-gray-600">Subtotal</th>
                                 <td className="py-4 text-right text-gray-800 font-medium">
-                                  {totalCost.toFixed(2)}
+                                  {totalCost.toFixed(2)} $
                                 </td>
                               </tr>
                               <tr>
                                 <th className="py-4 text-gray-800 text-lg font-semibold">
-                                  Total
+                                  VAT + Total
                                 </th>
                                 <td className="py-4 text-right text-gray-800 text-lg font-bold">
-                                  {(totalCost * 1.15).toFixed(2)}
+                                  {(totalCost * 1.15).toFixed(2)} $
                                 </td>
                               </tr>
                             </tfoot>
@@ -663,16 +663,9 @@ function CheckOut({ fetchedData }: any) {
                   </form>
                 )}
               </div>
-
-              <div className="clearfix"></div>
-              <div className="electio-page-comment-section">
-                <div className="container"></div>
-              </div>
             </div>
           </div>
         </article>
-
-        <div className="clearfix"></div>
       </main>
     </>
   );
