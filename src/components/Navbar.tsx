@@ -44,6 +44,7 @@ const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [showCartPopUp, setShowCartPopUp] = useState(false);
   const menuRef = useRef(null);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   // to close the mobile menu when the user clicks on the navigation bar or somewhere else on the screen
   useEffect(() => {
@@ -61,6 +62,29 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuRef]);
+
+  // useEffect(() => {
+  //   setIsUserLoggedIn(sessionStorage.getItem("user") !== null);
+  // }, []);
+
+  useEffect(() => {
+    const checkUserLoggedIn = () => {
+      const user = sessionStorage.getItem("user");
+      setIsUserLoggedIn(user !== null);
+    };
+
+    checkUserLoggedIn();
+
+    // Add an interval to check periodically
+    const interval = setInterval(checkUserLoggedIn, 1000);
+    // Add an event listener for storage changes
+    window.addEventListener("storage", checkUserLoggedIn);
+
+    return () => {
+      window.removeEventListener("storage", checkUserLoggedIn);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div className="app">
@@ -151,17 +175,19 @@ const Navbar = () => {
               <Link href="#">
                 <DropdownMenuDemo />
               </Link>
-              <Link
-                href="/Cart"
-                className="bg-neutral-50 rounded-sm w-16 hover:bg-gray-100 "
-              >
-                <ShoppingCartIcon className="h-8 w-8 mx-4 text-gray-500" />
-              </Link>
+              {isUserLoggedIn ? (
+                <Link
+                  href="/Cart"
+                  className="bg-neutral-50 rounded-sm w-16 hover:bg-gray-100 "
+                >
+                  <ShoppingCartIcon className="h-8 w-8 mx-4 text-gray-500" />
+                </Link>
+              ) : null}
             </div>
           </div>
         </div>
       </nav>
-      {showCartPopUp && (
+      {showCartPopUp && isUserLoggedIn && (
         <CartPopUp
           show={showCartPopUp}
           handleClose={() => setShowCartPopUp(false)}

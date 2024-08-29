@@ -1,55 +1,52 @@
 "use client";
 import { LogOut } from "lucide-react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
-
+import { signOut } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { auth } from "@/app/firebaseConfig";
+import { useRouter } from "next/navigation";
 
 export function DropdownMenuDemo() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      sessionStorage.removeItem("user");
+      router.push("/SignUp");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="border-none" variant="outline">
-          <UserCircleIcon className="h-8 w-8 border-none text-gray-500" />
+        <Button variant="outline" className="border-none">
+          <UserCircleIcon className="h-8 w-8 text-gray-500" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-
-        <DropdownMenuSeparator />
-
-        <div className="overflow-hidden p-2">
-          <Link
-            href="/SignUp"
-            className="bg-gray-500 hover:text-white font-bold p-2 m-2 overflow-hidden rounded-lg border-none"
-          >
-            <span>Sign up</span>
+        <DropdownMenuItem asChild>
+          <Link href="/SignUp" className="bg-slate-300 w-24 ">
+            Sign up
           </Link>
-        </div>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="/" className="bg-none border-none">
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Log out</span>
-          </Link>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        <DropdownMenuItem onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4 active:bg-slate-300 " />
+          <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

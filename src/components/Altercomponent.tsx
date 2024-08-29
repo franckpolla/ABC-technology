@@ -1,48 +1,21 @@
 import { RocketIcon } from "@radix-ui/react-icons";
 import React from "react";
 
-function AddedProductPopUp({ isOpen, title }: any) {
+function AddedProductPopUp({ isOpen, title }) {
+  if (!isOpen) return null;
+
   return (
-    <>
-      {isOpen && (
-        <div
-          className=" flex justify-center items-center text-center"
-          style={{
-            position: "fixed",
-            top: "200px",
-            right: "550px",
-            width: "400px",
-            zIndex: "999",
-          }}
-        >
-          <div className="electio-notifications-area">
-            <div
-              className="toast electio-notification bg-green-500 border-0 rounded-lg w-100 fade hide"
-              role="alert"
-              aria-live="assertive"
-              aria-atomic="true"
-              style={{
-                opacity: "100",
-                display: "flex",
-                justifyItems: "center",
-                alignItems: "center",
-                color: "white",
-                transition: "opacity 0.3s ease-in-out",
-                flexDirection: "column",
-              }}
-            >
-              <div className="flex justify-center items-center text-center">
-                <RocketIcon className="h-4 w-4 text-center" />
-                <strong className="mr-auto p-3">{title}</strong>
-              </div>
-              <div className="p-2">
-                has been added the item to your shopping cart!
-              </div>
-            </div>
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="bg-green-500 text-white rounded-lg shadow-lg max-w-sm w-full mx-4">
+        <div className="p-4">
+          <div className="flex items-center justify-center mb-2">
+            <RocketIcon className="h-6 w-6 mr-2" />
+            <strong className="text-lg">{title}</strong>
           </div>
+          <p className="text-center">has been added to your shopping cart!</p>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }
 

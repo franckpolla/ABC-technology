@@ -4,10 +4,13 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import LoadingPage from "../loading";
+
 function CartPopUp({ handleClose, show }: any) {
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const updateCartData = () => {
@@ -31,6 +34,12 @@ function CartPopUp({ handleClose, show }: any) {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
   const removeItem = (index: number) => {
     const updatedItems = cartItems.filter((_, i) => i !== index);
     setCartItems(updatedItems);
@@ -42,6 +51,9 @@ function CartPopUp({ handleClose, show }: any) {
     );
   };
 
+  if (loading) {
+    return <LoadingPage />;
+  }
   return (
     <div className="mt-32 mx-auto w-4/5 md:w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-[calc(100vh-8rem)]">
       <div className="flex items-center justify-between p-4 border-b">

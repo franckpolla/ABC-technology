@@ -1,17 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { auth } from "@/app/firebaseConfig";
+import { auth, sendPasswordResetEmail } from "@/app/firebaseConfig";
+import LoadingPage from "@/app/loading";
+import { resetPassword } from "./resetPassword";
+import { AuthError } from "firebase/auth";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
+  useEffect(() => {
+    // Simulating an async operation
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,8 +32,10 @@ export default function SignInForm() {
       const res = await signInWithEmailAndPassword(email, password);
       if (res) {
         console.log(res);
+        sessionStorage.setItem("user", true);
         setEmail("");
         setPassword("");
+
         router.push("/");
       } else {
         setError("Failed to sign in. Please check your credentials.");
@@ -34,6 +49,25 @@ export default function SignInForm() {
     }
   };
 
+  const handlePasswordReset = async () => {
+    setError("");
+    setMessage("");
+
+    if (!email) {
+      setError("Please enter your email address to reset your password.");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage("Password reset email sent. Please check your inbox.");
+    } catch (error) {
+      setError((error as AuthError).message || "Failed to send reset email.");
+    }
+  };
+  if (loading) {
+    return <LoadingPage />;
+  }
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -66,6 +100,17 @@ export default function SignInForm() {
                 />
               </div>
             </div>
+
+            {/* want the user click on the we semd him a email allowing him to reset his password */}
+            <button
+              onClick={handlePasswordReset}
+              className=" flex pl-48 text-blue-400"
+              type="button"
+            >
+              Forgot password
+            </button>
+
+            {message && <p className="text-green-500">{message}</p>}
 
             <div>
               <div className="flex items-center justify-between">

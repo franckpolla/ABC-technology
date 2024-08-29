@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebaseConfig";
 import { useRouter } from "next/navigation";
-import bcrypt from "bcryptjs";
+import LoadingPage from "@/app/loading";
+
 interface PasswordStrengthProps {
   password: string;
 }
@@ -58,6 +59,17 @@ export default function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  useEffect(() => {
+    // Simulating an async operation
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   const validatePassword = (pwd: string) => {
     return (
@@ -68,9 +80,8 @@ export default function SignUpForm() {
       /[^A-Za-z0-9]/.test(pwd)
     );
   };
+
   //This line of code is using a custom hook named useCreateUserWithEmailAndPassword to access the createUserWithEmailAndPassword function from the Firebase Authentication library.
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,8 +104,10 @@ export default function SignUpForm() {
       const res = await createUserWithEmailAndPassword(email, password);
       alert("User created successfully");
       console.log(res);
+      sessionStorage.setItem("user", true);
       setEmail("");
       setPassword("");
+
       return router.push("/");
     } catch (error) {
       if (error instanceof Error) {
@@ -104,6 +117,10 @@ export default function SignUpForm() {
       }
     }
   };
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
