@@ -5,8 +5,8 @@ import Lady from "@/_assert/africanLady.jpg";
 
 const page = () => {
   return (
-    <div className="w-full flex justify-center items-center overflow-hidden p-3">
-      <div className="w-full flex flex-col lg:flex-row  h-screen  overflow-hiddenjustify-center items-center">
+    <div className="w-full flex justify-center items-center overflow-hidden">
+      <div className="w-full flex flex-col lg:flex-row h-screen overflow-hiddenjustify-center items-center">
         <div className="hidden lg:flex w-2/3">
           <Image
             src={Lady}

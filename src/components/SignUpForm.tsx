@@ -107,7 +107,6 @@ export default function SignUpForm() {
       sessionStorage.setItem("user", true);
       setEmail("");
       setPassword("");
-
       return router.push("/");
     } catch (error) {
       if (error instanceof Error) {
@@ -123,7 +122,7 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full  overflow-hidden lg:h-screen flex-1 flex-col justify-center px-6 py-12 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 pb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign Up

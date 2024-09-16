@@ -23,7 +23,7 @@ export default function SignInForm() {
     // Simulating an async operation
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +35,7 @@ export default function SignInForm() {
         sessionStorage.setItem("user", true);
         setEmail("");
         setPassword("");
-
+        console.log("User is signed in, redirecting...");
         router.push("/");
       } else {
         setError("Failed to sign in. Please check your credentials.");

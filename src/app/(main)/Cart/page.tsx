@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import LoadingPage from "../loading";
+import LoadingPage from "../../loading";
 
 function CartPopUp({ handleClose, show }: any) {
   const [totalQuantity, setTotalQuantity] = useState(0);

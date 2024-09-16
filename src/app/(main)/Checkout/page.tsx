@@ -1,9 +1,10 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { db } from "@/app/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
+import { IoIosThumbsUp } from "react-icons/io";
 function CheckOut({ fetchedData }: any) {
   //   const be_base_url = process.env.REACT_APP_BACKEND_BASE_URL;
   const [totalCost, setTotalCost] = useState(0);
@@ -91,9 +92,11 @@ function CheckOut({ fetchedData }: any) {
     }
   }, []);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    const savedFormData = JSON.parse(
+      localStorage.getItem("formData") as string
+    );
     const { mail, ...deliveryInfo } = formData;
 
     const isDeliveryInfoEmpty = Object.entries(deliveryInfo).some(
@@ -142,10 +145,13 @@ function CheckOut({ fetchedData }: any) {
     //       localStorage.removeItem("cartItems");
     //       window.Location.reload();
     //     }, 3000);
-    //   })
+    //   }
     //   .catch((error) => {
     //     console.error("Error creating order:", error);
     //   });
+
+    //
+    addDataToFirestore(savedFormData, cartItems);
 
     storeFormData(deliveryInfo);
   };
@@ -162,8 +168,11 @@ function CheckOut({ fetchedData }: any) {
         We found your information from your last purchase. Would you like to use
         it again?
       </p>
-      <button onClick={() => handlePreFillSubmit(true)}>Yes</button>
-      <button onClick={() => handlePreFillSubmit(false)}>No</button>
+      <div className="p-4">
+        {" "}
+        <button onClick={() => handlePreFillSubmit(true)}>Yes</button>
+        <button onClick={() => handlePreFillSubmit(false)}>No</button>
+      </div>
       <br /> <br />
     </div>
   ); // create function to store user delivery and billing infos into local storage so we don't have to always ask
@@ -174,11 +183,35 @@ function CheckOut({ fetchedData }: any) {
   // if yes use those infos for billing and hide billing form else show billing form
   // if we have the details we need to ask the user if he wants to use those or update to new details
 
+  const addDataToFirestore = async (orderData: any, cartItems: any[]) => {
+    try {
+      // Add order to Firestore
+      const docRef = await addDoc(collection(db, "orders"), orderData);
+      console.log("Order document written with ID: ", docRef.id);
+      setOrderSent(true);
+      localStorage.removeItem("CartItems");
+      setTimeout(() => {
+        setOrderSent(false);
+        // Consider using React Router or state management instead of reload
+        // window.location.reload();
+      }, 3000);
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <>
       {orderSent && (
-        <div className="alerted success-alert">
-          <h3>Order created successfully</h3>
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-green-500 text-white rounded-lg shadow-lg max-w-sm w-full mx-4">
+            <div className="p-4">
+              <div className="flex items-center justify-center mb-2">
+                <IoIosThumbsUp />
+              </div>
+              <p className="text-center">your order has been received </p>
+            </div>
+          </div>
         </div>
       )}
       <main
@@ -488,13 +521,13 @@ function CheckOut({ fetchedData }: any) {
                                 </label>
                                 <span className="woocommerce-input-wrapper">
                                   <input
+                                    type="email"
                                     required
                                     className="input-text "
                                     value={formData.mail}
                                     onChange={(e) =>
                                       handleInputChange("mail", e.target.value)
                                     }
-                                    type="text"
                                     id="email"
                                     name="email"
                                     placeholder="email username"
@@ -523,7 +556,7 @@ function CheckOut({ fetchedData }: any) {
                                 <span className="woocommerce-input-wrapper">
                                   <textarea
                                     className="input-text "
-                                    alue={formData.notes}
+                                    value={formData.notes}
                                     onChange={(e) =>
                                       handleInputChange("notes", e.target.value)
                                     }
@@ -650,7 +683,6 @@ function CheckOut({ fetchedData }: any) {
                             <div className="mt-8">
                               <Button
                                 type="submit"
-                                onClick={handleSubmit}
                                 className="w-full py-3 px-4 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
                               >
                                 Place order
@@ -670,5 +702,4 @@ function CheckOut({ fetchedData }: any) {
     </>
   );
 }
-
 export default CheckOut;

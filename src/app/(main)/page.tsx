@@ -1,7 +1,6 @@
 "use client";
-
 import Image from "next/image";
-import BgImage from "../_assert/pexels-burst-374103.jpg";
+import BgImage from "@/_assert/pexels-burst-374103.jpg";
 import { Button } from "@/components/ui/button";
 import SectionProduct from "@/components/SectionProduct";
 import OurServices from "@/components/OurServices";
@@ -10,7 +9,7 @@ import Example from "@/components/NewsLetter";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebaseConfig";
 import { useRouter } from "next/navigation";
-import LoadingPage from "./loading";
+import LoadingPage from "@/app/loading";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 

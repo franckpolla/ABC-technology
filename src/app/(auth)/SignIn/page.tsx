@@ -5,9 +5,9 @@ import SignInForm from "@/components/SignInForm";
 
 const page = () => {
   return (
-    <div className="w-full flex justify-center items-center overflow-hidden p-3">
-      <div className="w-full flex flex-col lg:flex-row  h-screen  overflow-hiddenjustify-center items-center">
-        <div className=" w:full overflow-hidden lg:w-1/2">
+    <div className="w-full flex justify-center items-center overflow-hidden">
+      <div className="w-full flex flex-col lg:p-0 lg:flex-row  h-screen overflow-hidden justify-center items-center">
+        <div className=" w-full overflow-hidden lg:w-2/3">
           <SignInForm />
         </div>
         <div className="hidden lg:flex w-2/3">
