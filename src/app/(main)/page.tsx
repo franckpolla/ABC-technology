@@ -53,7 +53,7 @@ export default function Home() {
           alt="camera img"
         />
         <div className=" flex items-center relative z-10 overflow-hidden">
-          <div className=" mt-32 text-white  mx-4 md:mx-20">
+          <div className=" mt-10 lg:mt-32 text-white  mx-4 md:mx-20 overflow-hidden">
             <h1 className="font-serif text-6xl   ">
               welcome to <br />
               <span className="text-blue-400 animate-pulse mx-2  text-8xl font-semibold">
@@ -61,13 +61,13 @@ export default function Home() {
               </span>
               Technology
             </h1>
-            <p className=" mt-5 text-gray-200 font-sans text-xl w-[250px] lg:w-[650px]">
+            <p className=" mt-5 text-gray-200 font-sans sm:w-[500px] text-xl w-[250px] lg:w-[650px]">
               we empower your world—whether it's securing your space with our
               advanced CCTV systems or bringing your digital vision to life with
               innovative web development.
             </p>
 
-            <div className="mx-10 mt-10">
+            <div className="mx-10 mt-10 sm:mb-10 sm:mt-2">
               <Link href="/Product" passHref>
                 <Button className="w-72 h-14 text-xl text-white bg-cyan-600">
                   Get started

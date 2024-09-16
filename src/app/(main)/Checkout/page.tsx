@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/app/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { IoIosThumbsUp } from "react-icons/io";
+
 function CheckOut({ fetchedData }: any) {
   //   const be_base_url = process.env.REACT_APP_BACKEND_BASE_URL;
   const [totalCost, setTotalCost] = useState(0);
@@ -26,7 +27,6 @@ function CheckOut({ fetchedData }: any) {
     selectedOption: "",
     amount: "",
   });
-  const [showPreFillPopup, setShowPreFillPopup] = useState(false);
 
   const handleRadioChange = (event: any) => {
     const selectedValue = event.target.value;
@@ -42,28 +42,28 @@ function CheckOut({ fetchedData }: any) {
       [fieldName]: value,
     }));
   };
-  const handlePreFillSubmit = (shouldPreFill: any) => {
-    setShowPreFillPopup(false);
-    if (shouldPreFill) {
-      setFormData(JSON.parse(localStorage.getItem("formData") as string));
-    } else {
-      setFormData({
-        fname: "",
-        lname: "",
-        company: "",
-        region: "",
-        city: "",
-        street: "",
-        apartment: "",
-        zipcode: "",
-        phone: "",
-        mail: "",
-        notes: "",
-        selectedOption: "",
-        amount: "",
-      });
-    }
-  };
+
+  //   setShowPreFillPopup(false);
+  //   if (shouldPreFill) {
+  //     setFormData(JSON.parse(localStorage.getItem("formData") as string));
+  //   } else {
+  //     setFormData({
+  //       fname: "",
+  //       lname: "",
+  //       company: "",
+  //       region: "",
+  //       city: "",
+  //       street: "",
+  //       apartment: "",
+  //       zipcode: "",
+  //       phone: "",
+  //       mail: "",
+  //       notes: "",
+  //       selectedOption: "",
+  //       amount: "",
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     const storedCartItems =
@@ -86,10 +86,6 @@ function CheckOut({ fetchedData }: any) {
       localStorage.getItem("formData") as string
     );
     console.log(savedFormData);
-
-    if (savedFormData) {
-      setShowPreFillPopup(true);
-    }
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -152,7 +148,6 @@ function CheckOut({ fetchedData }: any) {
 
     //
     addDataToFirestore(savedFormData, cartItems);
-
     storeFormData(deliveryInfo);
   };
 
@@ -160,22 +155,6 @@ function CheckOut({ fetchedData }: any) {
     localStorage.setItem("formData", JSON.stringify(dataObject));
     // console.log(JSON.parse(localStorage.getItem("formData")));
   }
-
-  const PreFillPopup = () => (
-    <div className="prefill-popup">
-      <h2>Use Previously Entered Details?</h2>
-      <p>
-        We found your information from your last purchase. Would you like to use
-        it again?
-      </p>
-      <div className="p-4">
-        {" "}
-        <button onClick={() => handlePreFillSubmit(true)}>Yes</button>
-        <button onClick={() => handlePreFillSubmit(false)}>No</button>
-      </div>
-      <br /> <br />
-    </div>
-  ); // create function to store user delivery and billing infos into local storage so we don't have to always ask
 
   // when information is saved prompt wether the user wants to save details for future transaction or not if yes save else don't
 
@@ -241,459 +220,440 @@ function CheckOut({ fetchedData }: any) {
           <div className="container electio-condensed-container lg:w-full ">
             <div className="post-content electio-default-page-content lg:w-full">
               <div className="woocommerce lg:w-full ">
-                {showPreFillPopup ? (
-                  <PreFillPopup />
-                ) : (
-                  <form
-                    name="checkout"
-                    method="post"
-                    className="checkout woocommerce-checkout lg:flex flex-row electio-checkout-main row overflow-hidden"
-                    encType="multipart/form-data"
-                    noValidate="novalidate"
-                    onSubmit={handleSubmit}
-                  >
-                    <div className="pivoo-checkout-left-part lg:px-10 col-12 col-md-8">
-                      <div className="col2-set" id="customer_details">
-                        <div className="xopic-col-1">
-                          <div className="woocommerce-billing-fields">
-                            <h3>Billing details</h3>
+                <form
+                  name="checkout"
+                  method="post"
+                  className="checkout woocommerce-checkout lg:flex flex-row electio-checkout-main row overflow-hidden"
+                  encType="multipart/form-data"
+                  noValidate="novalidate"
+                  onSubmit={handleSubmit}
+                >
+                  <div className="pivoo-checkout-left-part lg:px-10 col-12 col-md-8">
+                    <div className="col2-set" id="customer_details">
+                      <div className="xopic-col-1">
+                        <div className="woocommerce-billing-fields">
+                          <h3>Billing details</h3>
 
-                            <div className="woocommerce-billing-fields__field-wrapper">
-                              <p
-                                className="form-row form-row-first validate-required"
-                                id="billing_first_name_field"
-                                data-priority="10"
-                              >
-                                <label
-                                  htmlFor="billing_first_name"
-                                  className=""
+                          <div className="woocommerce-billing-fields__field-wrapper">
+                            <p
+                              className="form-row form-row-first validate-required"
+                              id="billing_first_name_field"
+                              data-priority="10"
+                            >
+                              <label htmlFor="billing_first_name" className="">
+                                First name&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text "
+                                  value={formData.fname}
+                                  onChange={(e) =>
+                                    handleInputChange("fname", e.target.value)
+                                  }
+                                  type="text"
+                                  id="fname"
+                                  name="firstname"
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row form-row-last validate-required"
+                              id="billing_last_name_field"
+                              data-priority="20"
+                            >
+                              <label htmlFor="billing_last_name" className="">
+                                Last name&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text"
+                                  value={formData.lname}
+                                  onChange={(e) =>
+                                    handleInputChange("lname", e.target.value)
+                                  }
+                                  type="text"
+                                  id="lname"
+                                  name="lastname"
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row form-row-wide"
+                              id="billing_company_field"
+                              data-priority="30"
+                            >
+                              <label htmlFor="billing_company" className="">
+                                Company name&nbsp;
+                                <span className="optional">(optional)</span>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  value={formData.company}
+                                  onChange={(e) =>
+                                    handleInputChange("company", e.target.value)
+                                  }
+                                  type="text"
+                                  id="cname"
+                                  name="companyname"
+                                  className="input-text "
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row form-row-first validate-required"
+                              id="billing_country_field"
+                              data-priority="40"
+                            >
+                              <label htmlFor="billing_country" className="">
+                                Region&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <select
+                                  className="country_to_state country_select select2-hidden-accessible"
+                                  value={formData.region}
+                                  onChange={(e) =>
+                                    handleInputChange("region", e.target.value)
+                                  }
                                 >
-                                  First name&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text "
-                                    value={formData.fname}
-                                    onChange={(e) =>
-                                      handleInputChange("fname", e.target.value)
-                                    }
-                                    type="text"
-                                    id="fname"
-                                    name="firstname"
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row form-row-last validate-required"
-                                id="billing_last_name_field"
-                                data-priority="20"
-                              >
-                                <label htmlFor="billing_last_name" className="">
-                                  Last name&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text"
-                                    value={formData.lname}
-                                    onChange={(e) =>
-                                      handleInputChange("lname", e.target.value)
-                                    }
-                                    type="text"
-                                    id="lname"
-                                    name="lastname"
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row form-row-wide"
-                                id="billing_company_field"
-                                data-priority="30"
-                              >
-                                <label htmlFor="billing_company" className="">
-                                  Company name&nbsp;
-                                  <span className="optional">(optional)</span>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    value={formData.company}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        "company",
-                                        e.target.value
-                                      )
-                                    }
-                                    type="text"
-                                    id="cname"
-                                    name="companyname"
-                                    className="input-text "
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row form-row-first validate-required"
-                                id="billing_country_field"
-                                data-priority="40"
-                              >
-                                <label htmlFor="billing_country" className="">
-                                  Region&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <select
-                                    className="country_to_state country_select select2-hidden-accessible"
-                                    value={formData.region}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        "region",
-                                        e.target.value
-                                      )
-                                    }
-                                  >
-                                    <option value="">Select a region…</option>
+                                  <option value="">Select a region…</option>
 
-                                    <option value="Lefkosa">Lefkosa</option>
-                                    <option value="Magusa">Magusa</option>
-                                    <option value="Girne">Girne</option>
-                                    <option value="Lefke">Lefke</option>
-                                  </select>
-                                </span>
-                              </p>
-                              <p
-                                className="form-row form-row-last validate-required"
-                                id="billing_last_name_field"
-                                data-priority="20"
+                                  <option value="Lefkosa">Lefkosa</option>
+                                  <option value="Magusa">Magusa</option>
+                                  <option value="Girne">Girne</option>
+                                  <option value="Lefke">Lefke</option>
+                                </select>
+                              </span>
+                            </p>
+                            <p
+                              className="form-row form-row-last validate-required"
+                              id="billing_last_name_field"
+                              data-priority="20"
+                            >
+                              <label htmlFor="billing_postcode" className="">
+                                ZIP Code&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text "
+                                  value={formData.zipcode}
+                                  onChange={(e) =>
+                                    handleInputChange("zipcode", e.target.value)
+                                  }
+                                  type="text"
+                                  id="zip"
+                                  name="zip"
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row address-field validate-required form-row-wide"
+                              id="billing_address_1_field"
+                              data-priority="50"
+                            >
+                              <label htmlFor="billing_address_1" className="">
+                                Street address&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text "
+                                  value={formData.street}
+                                  onChange={(e) =>
+                                    handleInputChange("street", e.target.value)
+                                  }
+                                  type="text"
+                                  id="adr"
+                                  name="address"
+                                  placeholder="House number and street name"
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row address-field form-row-wide"
+                              id="billing_address_2_field"
+                              data-priority="60"
+                            >
+                              <label
+                                htmlFor="billing_address_2"
+                                className="screen-reader-text"
                               >
-                                <label htmlFor="billing_postcode" className="">
-                                  ZIP Code&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text "
-                                    value={formData.zipcode}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        "zipcode",
-                                        e.target.value
-                                      )
-                                    }
-                                    type="text"
-                                    id="zip"
-                                    name="zip"
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row address-field validate-required form-row-wide"
-                                id="billing_address_1_field"
-                                data-priority="50"
-                              >
-                                <label htmlFor="billing_address_1" className="">
-                                  Street address&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text "
-                                    value={formData.street}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        "street",
-                                        e.target.value
-                                      )
-                                    }
-                                    type="text"
-                                    id="adr"
-                                    name="address"
-                                    placeholder="House number and street name"
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row address-field form-row-wide"
-                                id="billing_address_2_field"
-                                data-priority="60"
-                              >
-                                <label
-                                  htmlFor="billing_address_2"
-                                  className="screen-reader-text"
-                                >
-                                  Apartment, suite, unit, etc.&nbsp;
-                                  <span className="optional">(optional)</span>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text "
-                                    value={formData.apartment}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        "apartment",
-                                        e.target.value
-                                      )
-                                    }
-                                    type="text"
-                                    id="adr"
-                                    name="address"
-                                    placeholder="Appartments, suite, etc."
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row address-field validate-required form-row-wide"
-                                id="billing_city_field"
-                                data-priority="70"
-                                data-o_className="form-row form-row-wide address-field validate-required"
-                              >
-                                <label htmlFor="billing_city" className="">
-                                  Town / City&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text "
-                                    value={formData.city}
-                                    onChange={(e) =>
-                                      handleInputChange("city", e.target.value)
-                                    }
-                                    type="text"
-                                    id="city"
-                                    name="city"
-                                    placeholder="eg: Kayimakli, Ortakoy, Haspolat ..."
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row form-row-wide validate-required validate-phone"
-                                id="billing_phone_field"
-                                data-priority="100"
-                              >
-                                <label htmlFor="billing_phone" className="">
-                                  Phone&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    required
-                                    className="input-text "
-                                    value={formData.phone}
-                                    onChange={(e) =>
-                                      handleInputChange("phone", e.target.value)
-                                    }
-                                    type="text"
-                                    id="phone"
-                                    name="phone"
-                                  />
-                                </span>
-                              </p>
-                              <p
-                                className="form-row form-row-wide validate-required validate-email"
-                                id="billing_email_field"
-                                data-priority="110"
-                              >
-                                <label htmlFor="billing_email" className="">
-                                  Email address&nbsp;
-                                  <abbr className="required" title="required">
-                                    *
-                                  </abbr>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <input
-                                    type="email"
-                                    required
-                                    className="input-text "
-                                    value={formData.mail}
-                                    onChange={(e) =>
-                                      handleInputChange("mail", e.target.value)
-                                    }
-                                    id="email"
-                                    name="email"
-                                    placeholder="email username"
-                                  />
-                                </span>
-                              </p>
-                            </div>
+                                Apartment, suite, unit, etc.&nbsp;
+                                <span className="optional">(optional)</span>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text "
+                                  value={formData.apartment}
+                                  onChange={(e) =>
+                                    handleInputChange(
+                                      "apartment",
+                                      e.target.value
+                                    )
+                                  }
+                                  type="text"
+                                  id="adr"
+                                  name="address"
+                                  placeholder="Appartments, suite, etc."
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row address-field validate-required form-row-wide"
+                              id="billing_city_field"
+                              data-priority="70"
+                              data-o_className="form-row form-row-wide address-field validate-required"
+                            >
+                              <label htmlFor="billing_city" className="">
+                                Town / City&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text "
+                                  value={formData.city}
+                                  onChange={(e) =>
+                                    handleInputChange("city", e.target.value)
+                                  }
+                                  type="text"
+                                  id="city"
+                                  name="city"
+                                  placeholder="eg: Kayimakli, Ortakoy, Haspolat ..."
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row form-row-wide validate-required validate-phone"
+                              id="billing_phone_field"
+                              data-priority="100"
+                            >
+                              <label htmlFor="billing_phone" className="">
+                                Phone&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  required
+                                  className="input-text "
+                                  value={formData.phone}
+                                  onChange={(e) =>
+                                    handleInputChange("phone", e.target.value)
+                                  }
+                                  type="text"
+                                  id="phone"
+                                  name="phone"
+                                />
+                              </span>
+                            </p>
+                            <p
+                              className="form-row form-row-wide validate-required validate-email"
+                              id="billing_email_field"
+                              data-priority="110"
+                            >
+                              <label htmlFor="billing_email" className="">
+                                Email address&nbsp;
+                                <abbr className="required" title="required">
+                                  *
+                                </abbr>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <input
+                                  type="email"
+                                  required
+                                  className="input-text "
+                                  value={formData.mail}
+                                  onChange={(e) =>
+                                    handleInputChange("mail", e.target.value)
+                                  }
+                                  id="email"
+                                  name="email"
+                                  placeholder="email username"
+                                />
+                              </span>
+                            </p>
                           </div>
                         </div>
+                      </div>
 
-                        <div className="electio-col-2">
-                          <div className="woocommerce-shipping-fields"></div>
-                          <div className="woocommerce-additional-fields">
-                            <h3>Additional information</h3>
+                      <div className="electio-col-2">
+                        <div className="woocommerce-shipping-fields"></div>
+                        <div className="woocommerce-additional-fields">
+                          <h3>Additional information</h3>
 
-                            <div className="woocommerce-additional-fields__field-wrapper">
-                              <p
-                                className="form-row notes"
-                                id="order_comments_field"
-                                data-priority=""
-                              >
-                                <label htmlFor="order_comments" className="">
-                                  Order notes&nbsp;
-                                  <span className="optional">(optional)</span>
-                                </label>
-                                <span className="woocommerce-input-wrapper">
-                                  <textarea
-                                    className="input-text "
-                                    value={formData.notes}
-                                    onChange={(e) =>
-                                      handleInputChange("notes", e.target.value)
-                                    }
-                                    placeholder="Notes about your order, e.g. special notes for delivery."
-                                    rows="2"
-                                    cols="5"
-                                  ></textarea>
-                                </span>
-                              </p>{" "}
-                            </div>
+                          <div className="woocommerce-additional-fields__field-wrapper">
+                            <p
+                              className="form-row notes"
+                              id="order_comments_field"
+                              data-priority=""
+                            >
+                              <label htmlFor="order_comments" className="">
+                                Order notes&nbsp;
+                                <span className="optional">(optional)</span>
+                              </label>
+                              <span className="woocommerce-input-wrapper">
+                                <textarea
+                                  className="input-text "
+                                  value={formData.notes}
+                                  onChange={(e) =>
+                                    handleInputChange("notes", e.target.value)
+                                  }
+                                  placeholder="Notes about your order, e.g. special notes for delivery."
+                                  rows="2"
+                                  cols="5"
+                                ></textarea>
+                              </span>
+                            </p>{" "}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="pivoo-checkout-review w-full lg:h-full md:w-1/3 lg:w-2/4 bg-white rounded-lg shadow-lg p-6">
-                      <div className="pivoo-ck-review">
-                        <h3
-                          id="order_review_heading"
-                          className="text-2xl font-semibold text-gray-800 mb-6"
-                        >
-                          Your order
-                        </h3>
+                  </div>
+                  <div className="pivoo-checkout-review w-full lg:h-full md:w-1/3 lg:w-2/4 bg-white rounded-lg shadow-lg p-6">
+                    <div className="pivoo-ck-review">
+                      <h3
+                        id="order_review_heading"
+                        className="text-2xl font-semibold text-gray-800 mb-6"
+                      >
+                        Your order
+                      </h3>
+
+                      <div
+                        id="order_review"
+                        className="woocommerce-checkout-review-order"
+                      >
+                        <table className="w-full mb-6">
+                          <thead>
+                            <tr className="border-b border-gray-200">
+                              <th className="text-left py-3 text-gray-600">
+                                Product
+                              </th>
+                              <th className="text-right py-3 text-gray-600">
+                                Subtotal
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {cartItems.map((item: any, index) => (
+                              <tr
+                                key={index}
+                                className="border-b border-gray-100"
+                              >
+                                <td className="py-4 text-gray-800">
+                                  {item.productTitle}
+                                </td>
+                                <td className="py-4 text-right text-gray-800">
+                                  {item.price} $
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                          <tfoot>
+                            <tr className="border-b border-gray-200">
+                              <th className="py-4 text-gray-600">Subtotal</th>
+                              <td className="py-4 text-right text-gray-800 font-medium">
+                                {totalCost.toFixed(2)} $
+                              </td>
+                            </tr>
+                            <tr>
+                              <th className="py-4 text-gray-800 text-lg font-semibold">
+                                VAT + Total
+                              </th>
+                              <td className="py-4 text-right text-gray-800 text-lg font-bold">
+                                {(totalCost * 1.15).toFixed(2)} $
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </table>
 
                         <div
-                          id="order_review"
-                          className="woocommerce-checkout-review-order"
+                          id="payment"
+                          className="woocommerce-checkout-payment"
                         >
-                          <table className="w-full mb-6">
-                            <thead>
-                              <tr className="border-b border-gray-200">
-                                <th className="text-left py-3 text-gray-600">
-                                  Product
-                                </th>
-                                <th className="text-right py-3 text-gray-600">
-                                  Subtotal
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {cartItems.map((item: any, index) => (
-                                <tr
-                                  key={index}
-                                  className="border-b border-gray-100"
-                                >
-                                  <td className="py-4 text-gray-800">
-                                    {item.productTitle}
-                                  </td>
-                                  <td className="py-4 text-right text-gray-800">
-                                    {item.price} $
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                            <tfoot>
-                              <tr className="border-b border-gray-200">
-                                <th className="py-4 text-gray-600">Subtotal</th>
-                                <td className="py-4 text-right text-gray-800 font-medium">
-                                  {totalCost.toFixed(2)} $
-                                </td>
-                              </tr>
-                              <tr>
-                                <th className="py-4 text-gray-800 text-lg font-semibold">
-                                  VAT + Total
-                                </th>
-                                <td className="py-4 text-right text-gray-800 text-lg font-bold">
-                                  {(totalCost * 1.15).toFixed(2)} $
-                                </td>
-                              </tr>
-                            </tfoot>
-                          </table>
+                          <div className="mb-6">
+                            <div className="space-y-4">
+                              <label className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition duration-200">
+                                <input
+                                  required
+                                  name="radio-group"
+                                  id="radio2"
+                                  type="radio"
+                                  value="bank"
+                                  checked={formData.selectedOption === "bank"}
+                                  onChange={handleRadioChange}
+                                  className="form-radio text-cyan-600 focus:ring-cyan-500"
+                                />
+                                <span className="text-gray-700 font-medium">
+                                  DIRECT BANK TRANSFER
+                                </span>
+                              </label>
+                              {formData.selectedOption === "bank" && (
+                                <p className="ml-7 text-sm text-gray-600">
+                                  Make your payment directly into our bank
+                                  account. Please use your Order ID. Your order
+                                  will be shipped after funds have cleared in
+                                  our account.
+                                </p>
+                              )}
 
-                          <div
-                            id="payment"
-                            className="woocommerce-checkout-payment"
-                          >
-                            <div className="mb-6">
-                              <div className="space-y-4">
-                                <label className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition duration-200">
-                                  <input
-                                    required
-                                    name="radio-group"
-                                    id="radio2"
-                                    type="radio"
-                                    value="bank"
-                                    checked={formData.selectedOption === "bank"}
-                                    onChange={handleRadioChange}
-                                    className="form-radio text-cyan-600 focus:ring-cyan-500"
-                                  />
-                                  <span className="text-gray-700 font-medium">
-                                    DIRECT BANK TRANSFER
-                                  </span>
-                                </label>
-                                {formData.selectedOption === "bank" && (
-                                  <p className="ml-7 text-sm text-gray-600">
-                                    Make your payment directly into our bank
-                                    account. Please use your Order ID. Your
-                                    order will be shipped after funds have
-                                    cleared in our account.
-                                  </p>
-                                )}
-
-                                <label className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition duration-200">
-                                  <input
-                                    required
-                                    name="radio-group"
-                                    id="radio1"
-                                    type="radio"
-                                    value="cash"
-                                    checked={formData.selectedOption === "cash"}
-                                    onChange={handleRadioChange}
-                                    className="form-radio text-cyan-600 focus:ring-cyan-500"
-                                  />
-                                  <span className="text-gray-700 font-medium">
-                                    CASH ON DELIVERY
-                                  </span>
-                                </label>
-                                {formData.selectedOption === "cash" && (
-                                  <p className="ml-7 text-sm text-gray-600">
-                                    Pay with cash upon delivery.
-                                  </p>
-                                )}
-                              </div>
+                              <label className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition duration-200">
+                                <input
+                                  required
+                                  name="radio-group"
+                                  id="radio1"
+                                  type="radio"
+                                  value="cash"
+                                  checked={formData.selectedOption === "cash"}
+                                  onChange={handleRadioChange}
+                                  className="form-radio text-cyan-600 focus:ring-cyan-500"
+                                />
+                                <span className="text-gray-700 font-medium">
+                                  CASH ON DELIVERY
+                                </span>
+                              </label>
+                              {formData.selectedOption === "cash" && (
+                                <p className="ml-7 text-sm text-gray-600">
+                                  Pay with cash upon delivery.
+                                </p>
+                              )}
                             </div>
-                            <div className="mt-8">
-                              <Button
-                                type="submit"
-                                className="w-full py-3 px-4 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
-                              >
-                                Place order
-                              </Button>
-                            </div>
+                          </div>
+                          <div className="mt-8">
+                            <Button
+                              type="submit"
+                              className="w-full py-3 px-4 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
+                            >
+                              Place order
+                            </Button>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </form>
-                )}
+                  </div>
+                </form>
               </div>
             </div>
           </div>
