@@ -32,7 +32,7 @@ export default function SignInForm() {
       const res = await signInWithEmailAndPassword(email, password);
       if (res) {
         console.log(res);
-        sessionStorage.setItem("user", true);
+        sessionStorage.setItem("user", String(true));
         setEmail("");
         setPassword("");
         console.log("User is signed in, redirecting...");
@@ -148,7 +148,7 @@ export default function SignInForm() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Don't have an Account?{" "}
+            Don&apos;t have an Account?{" "}
             <Link
               href="/SignUp"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

@@ -3,11 +3,12 @@
 import { Calendar } from "@/components/ui/calendar";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { Label } from "@/components/ui/label";
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-const page = () => {
+const Page = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -78,4 +79,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

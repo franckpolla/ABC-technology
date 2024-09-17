@@ -42,8 +42,8 @@ const page = () => {
                 </h2>
               </div>
               <p className="mt-4 text-lg leading-8 text-gray-300">
-                In today's digital age, having a strong online presence is
-                essential for success. Whether you're looking to create a
+                In today &apos;s digital age, having a strong online presence is
+                essential for success. Whether you&apos;re looking to create a
                 dynamic website or a seamless mobile app, our development
                 services are designed to bring your vision to life. We build
                 websites according to the unique demands of each customer,

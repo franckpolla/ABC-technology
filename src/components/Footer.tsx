@@ -65,8 +65,8 @@ const Footer = () => {
         <div className="flex justify-between sm:w-[300px] pt-4 text-2xl">
           {items.map((x, index) => {
             return (
-              <Link href={x.link}>
-                <x.icon key={index} className="hover:text-sky-500" />
+              <Link href={x.link} key={index}>
+                <x.icon className="hover:text-sky-500" />
               </Link>
             );
           })}

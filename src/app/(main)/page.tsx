@@ -62,9 +62,9 @@ export default function Home() {
               Technology
             </h1>
             <p className=" mt-5 text-gray-200 font-sans sm:w-[500px] text-xl w-[250px] lg:w-[650px]">
-              we empower your world—whether it's securing your space with our
-              advanced CCTV systems or bringing your digital vision to life with
-              innovative web development.
+              we empower your world—whether it&apos;s securing your space with
+              our advanced CCTV systems or bringing your digital vision to life
+              with innovative web development.
             </p>
 
             <div className="mx-10 mt-10 sm:mb-10 sm:mt-2">

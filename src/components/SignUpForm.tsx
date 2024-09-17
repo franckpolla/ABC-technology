@@ -104,7 +104,7 @@ export default function SignUpForm() {
       const res = await createUserWithEmailAndPassword(email, password);
       alert("User created successfully");
       console.log(res);
-      sessionStorage.setItem("user", true);
+      sessionStorage.setItem("user", String(true));
       setEmail("");
       setPassword("");
       return router.push("/");
