@@ -1,5 +1,10 @@
-import { auth } from "@/app/firebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/app/firebaseConfig"; // Replace with your Firebase configuration import
+
+// Define a type for Firebase Auth errors
+interface FirebaseAuthError extends Error {
+  code: string;
+}
 
 export const resetPassword = async (email: string) => {
   try {
@@ -8,10 +13,13 @@ export const resetPassword = async (email: string) => {
       success: true,
       message: "Password reset email sent successfully.",
     };
-  } catch (error) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
+      // Cast error to FirebaseAuthError if it has a 'code' property
+      const firebaseError = error as FirebaseAuthError;
+
       // Handle specific Firebase Auth errors
-      switch (error.code) {
+      switch (firebaseError.code) {
         case "auth/invalid-email":
           return {
             success: false,

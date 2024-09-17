@@ -43,7 +43,7 @@ const NavigationLink = ({ href, children }: any) => {
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [showCartPopUp, setShowCartPopUp] = useState(false);
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   // to close the mobile menu when the user clicks on the navigation bar or somewhere else on the screen

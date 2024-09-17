@@ -3,10 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { RocketIcon } from "@radix-ui/react-icons";
 import AddedProductPopUp from "./Altercomponent";
 
-import { useToast } from "@/components/ui/use-toast";
 type Product = {
   productTitle: string;
   productImage: string;

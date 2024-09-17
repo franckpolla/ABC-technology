@@ -1,7 +1,7 @@
 import { RocketIcon } from "@radix-ui/react-icons";
 import React from "react";
 
-function AddedProductPopUp({ isOpen, title }) {
+function AddedProductPopUp({ isOpen, title }: any) {
   if (!isOpen) return null;
 
   return (
