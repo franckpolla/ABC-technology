@@ -207,10 +207,10 @@ function CheckOut({ fetchedData }: any) {
                 <Link
                   href="/"
                   className="breadcrumb-item"
-                  previewlistener="true"
+                  data-previewlistener="true"
                 >
                   Home
-                </Link>{" "}
+                </Link>
                 <span className="bredcrumb-separator"> / </span>{" "}
                 <span className="">Checkout</span>
               </div>{" "}
@@ -225,7 +225,7 @@ function CheckOut({ fetchedData }: any) {
                   method="post"
                   className="checkout woocommerce-checkout lg:flex flex-row electio-checkout-main row overflow-hidden"
                   encType="multipart/form-data"
-                  noValidate="novalidate"
+                  noValidate={true}
                   onSubmit={handleSubmit}
                 >
                   <div className="pivoo-checkout-left-part lg:px-10 col-12 col-md-8">
@@ -522,8 +522,8 @@ function CheckOut({ fetchedData }: any) {
                                     handleInputChange("notes", e.target.value)
                                   }
                                   placeholder="Notes about your order, e.g. special notes for delivery."
-                                  rows="2"
-                                  cols="5"
+                                  rows={2}
+                                  cols={5}
                                 ></textarea>
                               </span>
                             </p>{" "}
